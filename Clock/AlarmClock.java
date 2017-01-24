@@ -1,4 +1,4 @@
-package com.Hoffman;
+package Clock;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,8 +15,6 @@ public class AlarmClock {
 
     public AlarmClock(int h, int m)
     {
-        clockTicking = new Timer();
-        clockTicking.schedule(new addInterval(), 100, 1000);
         hour = h;
         minutes = m;
     }
@@ -41,6 +39,18 @@ public class AlarmClock {
         else {
             return ("Time is stopped");
         }
+    }
+
+    public void startClock ()
+    {
+        clockTicking = new Timer();
+        clockTicking.schedule(new addInterval(), 100, 1000);
+    }
+
+
+    public void stopTimer ()
+    {
+        clockTicking.cancel();
     }
 
     class addInterval extends TimerTask{
