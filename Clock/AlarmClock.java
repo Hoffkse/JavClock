@@ -1,5 +1,6 @@
 package Clock;
 
+import java.awt.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
@@ -69,5 +70,28 @@ public class AlarmClock {
             }
         }
     }
+
+    public String getTimeString()
+    {
+
+        String timeString = new String(String.format("%i:%i", hour, minutes));
+        System.out.println(timeString);
+        return timeString;
+    }
+
+    public class AlarmPanel extends JPanel
+    {
+        javax.swing.Timer rePaint;
+
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            g.setColor(Color.RED);
+            g.drawLine(10, 10, 50,50);
+            g.drawString(getTimeString(), 50, 50);
+        }
+    }
+
+
 
 }

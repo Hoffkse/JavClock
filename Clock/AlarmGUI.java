@@ -1,57 +1,58 @@
 package Clock;
+
+
 import java.awt.*;
-import java.awt.event.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 
-public class AlarmGUI extends JFrame{
+public class AlarmGUI extends JFrame {
 
-    public AlarmGUI()
-    {
+    AlarmClock clock = new AlarmClock(0, 0);
+
+    Timer rePaint;
+    public AlarmGUI(){
         initGUI();
     }
 
-    private void initGUI()
+    public void initGUI()
     {
 
-        //initializing the alarm clock object
-        AlarmClock clock = new AlarmClock(0,0);
+        //Main panel we will be adding to using gridBagLayout
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(new GridBagLayout());
 
-        //JFrame constructing
-        this.setLayout(new GridLayout(5, 1));
+        //setting gbc values for the clock panel and adding to the content panel
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent windowEvent){
-                System.exit(0);
-            }
-        });
-
-        setTitle("WAKE UP"); // title of the JFrame
-        setSize(500,500); // 500 x 500 gui
-        setLocationRelativeTo(null); // center screen
-
-        //adding jpanel to hold all buttons
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.setSize(150,150);
-        buttonPanel.setBackground(Color.darkGray);
-        this.add(buttonPanel);
+        //gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.9;
 
 
-        //Button constructer for starting alarm clock
+        clockPanel = new DrawClock();
+        //clockPanel.setBackground(Color.BLACK);
+        Dimension panelSize = new Dimension(500,500);
+        clockPanel.setPreferredSize(panelSize);
+        contentPanel.add(AlarmClock.AlarmPanel, gbc);
+
+        //setting the changed gbc values for the button panel to be added to contentpane
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weighty = 0;
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+
         JButton startClock = new JButton("START CLOCK");
         startClock.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 clock.startClock();
-
             }
         });
-        buttonPanel.add(startClock);
-
-        //Button constructer for stopping clock
         JButton stopClock = new JButton("STOP CLOCK");
         stopClock.addActionListener(new ActionListener() {
             @Override
@@ -59,13 +60,31 @@ public class AlarmGUI extends JFrame{
                 clock.stopTimer();
             }
         });
+        JButton exit = new JButton("EXIT");
+        exit.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                System.exit(0);
+            }
+        });
+        buttonPanel.add(startClock);
         buttonPanel.add(stopClock);
+        buttonPanel.add(exit);
+        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        buttonPanel.setBackground(Color.cyan);
+        contentPanel.add(buttonPanel, gbc);
 
-        this.add(buttonPanel);
+        //setting up the frame options for the entire frame itself
+        add(contentPanel);
+        setTitle("WAKE UP!");
+        //setSize(500,500);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
 
 
     }
-
 
 
 }
