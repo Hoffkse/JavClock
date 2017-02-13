@@ -4,7 +4,10 @@ package Clock;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.TimerTask;
 import javax.swing.*;
+import java.util.Timer;
+
 
 
 public class AlarmGUI extends JFrame {
@@ -27,18 +30,18 @@ public class AlarmGUI extends JFrame {
         GridBagConstraints gbc = new GridBagConstraints();
 
         //gbc.anchor = GridBagConstraints.FIRST_LINE_START;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.gridy = 0;
         gbc.gridx = 0;
         gbc.weightx = 1.0;
         gbc.weighty = 0.9;
 
 
-        clockPanel = new DrawClock();
-        //clockPanel.setBackground(Color.BLACK);
+        AlarmPanel clockPanel = new AlarmPanel();
+        clockPanel.setBackground(Color.BLACK);
         Dimension panelSize = new Dimension(500,500);
         clockPanel.setPreferredSize(panelSize);
-        contentPanel.add(AlarmClock.AlarmPanel, gbc);
+        contentPanel.add(clockPanel, gbc);
 
         //setting the changed gbc values for the button panel to be added to contentpane
         gbc.gridx = 0;
@@ -51,6 +54,7 @@ public class AlarmGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 clock.startClock();
+                startTimer();
             }
         });
         JButton stopClock = new JButton("STOP CLOCK");
@@ -58,6 +62,7 @@ public class AlarmGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 clock.stopTimer();
+                stopTimer();
             }
         });
         JButton exit = new JButton("EXIT");
@@ -84,6 +89,36 @@ public class AlarmGUI extends JFrame {
         setVisible(true);
 
 
+    }
+
+
+    public void startTimer()
+    {
+        Timer rePaint = new Timer();
+        rePaint.schedule(new addInterval(), 100, 1000);
+
+    }
+    public void stopTimer ()
+    {
+        rePaint.cancel();
+    }
+
+    public class AlarmPanel extends JPanel
+    {
+        public void paintComponent(Graphics g)
+        {
+            super.paintComponent(g);
+            g.setColor(Color.RED);
+            g.drawLine(10, 10, 50,50);
+            g.drawString(clock.getTimeString(), 50, 50);
+        }
+    }
+
+    class addInterval extends TimerTask {
+        public void run()
+        {
+            repaint();
+        }
     }
 
 

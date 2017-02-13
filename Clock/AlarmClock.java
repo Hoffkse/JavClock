@@ -45,12 +45,14 @@ public class AlarmClock {
     public void startClock ()
     {
         clockTicking = new Timer();
+        timeActive = true;
         clockTicking.schedule(new addInterval(), 100, 1000);
     }
 
 
     public void stopTimer ()
     {
+        timeActive = false;
         clockTicking.cancel();
     }
 
@@ -74,24 +76,9 @@ public class AlarmClock {
     public String getTimeString()
     {
 
-        String timeString = new String(String.format("%i:%i", hour, minutes));
+        String timeString = new String(String.format("%d:%d", hour, minutes));
         System.out.println(timeString);
         return timeString;
     }
-
-    public class AlarmPanel extends JPanel
-    {
-        javax.swing.Timer rePaint;
-
-        public void paintComponent(Graphics g)
-        {
-            super.paintComponent(g);
-            g.setColor(Color.RED);
-            g.drawLine(10, 10, 50,50);
-            g.drawString(getTimeString(), 50, 50);
-        }
-    }
-
-
 
 }
