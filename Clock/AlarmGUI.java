@@ -62,7 +62,10 @@ public class AlarmGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 clock.stopTimer();
-                stopTimer();
+
+                    rePaint.cancel();
+                    rePaint.purge();
+
             }
         });
         JButton exit = new JButton("EXIT");
@@ -78,7 +81,8 @@ public class AlarmGUI extends JFrame {
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonPanel.setBackground(Color.cyan);
         contentPanel.add(buttonPanel, gbc);
-
+        //need to end timer without timer exception
+        //
         //setting up the frame options for the entire frame itself
         add(contentPanel);
         setTitle("WAKE UP!");
@@ -94,7 +98,7 @@ public class AlarmGUI extends JFrame {
 
     public void startTimer()
     {
-        Timer rePaint = new Timer();
+        rePaint = new Timer();
         rePaint.schedule(new addInterval(), 100, 1000);
 
     }

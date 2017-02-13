@@ -59,7 +59,7 @@ public class AlarmClock {
     class addInterval extends TimerTask{
         public void run()
         {
-            System.out.println("Hour: "+ hour + "," + " Minutes: " + minutes);
+
             minutes++;
             if (minutes == 60)
             {
@@ -70,12 +70,13 @@ public class AlarmClock {
                     hour = 0;
                 }
             }
+            System.out.println("Hour: "+ hour + "," + " Minutes: " + minutes);
         }
     }
 
     public String getTimeString()
     {
-
+        System.out.println("stil here");
         String timeString = new String(String.format("%d:%d", hour, minutes));
         System.out.println(timeString);
         return timeString;
