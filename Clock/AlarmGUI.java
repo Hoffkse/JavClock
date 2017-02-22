@@ -2,6 +2,7 @@ package Clock;
 
 
 import java.awt.*;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TimerTask;
@@ -109,12 +110,18 @@ public class AlarmGUI extends JFrame {
 
     public class AlarmPanel extends JPanel
     {
+        Font myFont = new Font ("Courier New", 1, 50);
         public void paintComponent(Graphics g)
         {
             super.paintComponent(g);
+
+            String time = clock.getTimeString();
+            g.setFont(myFont);
+            FontMetrics fm = g.getFontMetrics();
+            int x = (getWidth() - fm.stringWidth(time)) / 2;
+            int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
             g.setColor(Color.RED);
-            g.drawLine(10, 10, 50,50);
-            g.drawString(clock.getTimeString(), 50, 50);
+            g.drawString(time, x, y);
         }
     }
 
