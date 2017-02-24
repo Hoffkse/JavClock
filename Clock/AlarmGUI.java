@@ -12,9 +12,7 @@ import java.util.Timer;
 
 
 public class AlarmGUI extends JFrame {
-
-    AlarmClock clock = new AlarmClock(0, 0);
-
+    AlarmClock clock;
     Timer rePaint;
     public AlarmGUI(){
         initGUI();
@@ -22,7 +20,8 @@ public class AlarmGUI extends JFrame {
 
     public void initGUI()
     {
-
+        clock = new AlarmClock();
+        startTimer();
         //Main panel we will be adding to using gridBagLayout
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
@@ -50,7 +49,7 @@ public class AlarmGUI extends JFrame {
         gbc.weighty = 0;
         JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
 
-        JButton startClock = new JButton("START CLOCK");
+        JButton startClock = new JButton("RESUME CLOCK");
         startClock.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -58,15 +57,13 @@ public class AlarmGUI extends JFrame {
                 startTimer();
             }
         });
-        JButton stopClock = new JButton("STOP CLOCK");
+        JButton stopClock = new JButton("PAUSE CLOCK");
         stopClock.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 clock.stopTimer();
-
-                    rePaint.cancel();
-                    rePaint.purge();
-
+                rePaint.cancel();
+                rePaint.purge();
             }
         });
         JButton exit = new JButton("EXIT");
