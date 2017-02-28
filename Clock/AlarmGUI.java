@@ -12,8 +12,14 @@ import java.util.Timer;
 
 
 public class AlarmGUI extends JFrame {
+
+
     AlarmClock clock;
     Timer rePaint;
+    Boolean alarmTriggered;
+    String userDesiredTime;
+
+
     public AlarmGUI(){
         initGUI();
     }
@@ -21,6 +27,7 @@ public class AlarmGUI extends JFrame {
     public void initGUI()
     {
         clock = new AlarmClock();
+        final UserTimeDialog settingTime = new UserTimeDialog();
         startTimer();
         //Main panel we will be adding to using gridBagLayout
         JPanel contentPanel = new JPanel();
@@ -47,7 +54,7 @@ public class AlarmGUI extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weighty = 0;
-        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
 
         JButton startClock = new JButton("RESUME CLOCK");
         startClock.addActionListener(new ActionListener() {
@@ -73,8 +80,19 @@ public class AlarmGUI extends JFrame {
                 System.exit(0);
             }
         });
+        JButton addAlarmTime = new JButton( "Set Clock to Ring");
+        addAlarmTime.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                settingTime.initDialog();
+                setEnabled(false);
+                //userDesiredTime = JOptionPane.showInputDialog("Enter the time ");
+                //alarmTriggered = true;
+            }
+        });
         buttonPanel.add(startClock);
         buttonPanel.add(stopClock);
+        buttonPanel.add(addAlarmTime);
         buttonPanel.add(exit);
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonPanel.setBackground(Color.cyan);
@@ -126,6 +144,7 @@ public class AlarmGUI extends JFrame {
         public void run()
         {
             repaint();
+            //if (settingT)
         }
     }
 
