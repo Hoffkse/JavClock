@@ -11,13 +11,17 @@ import java.util.Timer;
 
 
 
-public class AlarmGUI extends JFrame {
+public class AlarmGUI extends JFrame implements ActionListener {
 
 
     AlarmClock clock;
     Timer rePaint;
     Boolean alarmTriggered;
     String userDesiredTime;
+    JButton addAlarmTime;
+    JButton exit;
+    JButton startClock;
+    JButton stopClock;
 
 
     public AlarmGUI(){
@@ -27,7 +31,6 @@ public class AlarmGUI extends JFrame {
     public void initGUI()
     {
         clock = new AlarmClock();
-        final UserTimeDialog settingTime = new UserTimeDialog();
         startTimer();
         //Main panel we will be adding to using gridBagLayout
         JPanel contentPanel = new JPanel();
@@ -56,40 +59,18 @@ public class AlarmGUI extends JFrame {
         gbc.weighty = 0;
         JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
 
-        JButton startClock = new JButton("RESUME CLOCK");
-        startClock.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                clock.startClock();
-                startTimer();
-            }
-        });
-        JButton stopClock = new JButton("PAUSE CLOCK");
-        stopClock.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                clock.stopTimer();
-                rePaint.cancel();
-                rePaint.purge();
-            }
-        });
-        JButton exit = new JButton("EXIT");
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                System.exit(0);
-            }
-        });
-        JButton addAlarmTime = new JButton( "Set Clock to Ring");
-        addAlarmTime.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                settingTime.initDialog();
-                setEnabled(false);
-                //userDesiredTime = JOptionPane.showInputDialog("Enter the time ");
-                //alarmTriggered = true;
-            }
-        });
+        startClock = new JButton("RESUME CLOCK");
+        startClock.addActionListener(this);
+
+        stopClock = new JButton("PAUSE CLOCK");
+        stopClock.addActionListener(this);
+
+        exit = new JButton("EXIT");
+        exit.addActionListener(this);
+
+        addAlarmTime = new JButton( "Set Clock to Ring");
+        addAlarmTime.addActionListener(this);
+
         buttonPanel.add(startClock);
         buttonPanel.add(stopClock);
         buttonPanel.add(addAlarmTime);
@@ -97,12 +78,9 @@ public class AlarmGUI extends JFrame {
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         buttonPanel.setBackground(Color.cyan);
         contentPanel.add(buttonPanel, gbc);
-        //need to end timer without timer exception
-        //
-        //setting up the frame options for the entire frame itself
+
         add(contentPanel);
         setTitle("WAKE UP!");
-        //setSize(500,500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
@@ -111,6 +89,35 @@ public class AlarmGUI extends JFrame {
 
     }
 
+    public void actionPerformed (ActionEvent e)
+    {
+        if (e.getSource() == addAlarmTime)
+        {
+            UserTimeDialog settingTime = new UserTimeDialog(this);
+            userDesiredTime = settingTime.returnTimeValues();
+            System.out.println("the String of user setting time in GUI is: " + userDesiredTime);
+            if (userDesiredTime == null)
+            {
+                JOptionPane.showMessageDialog(this, "The time entered was not valid!");
+            }
+        }
+        else if (e.getSource() == exit)
+        {
+            System.exit(0);
+        }
+        else if (e.getSource() == startClock)
+        {
+            clock.startClock();
+            startTimer();
+        }
+        else if (e.getSource() == stopClock)
+        {
+            clock.stopTimer();
+            rePaint.cancel();
+            rePaint.purge();
+        }
+
+    }
 
     public void startTimer()
     {
@@ -144,7 +151,6 @@ public class AlarmGUI extends JFrame {
         public void run()
         {
             repaint();
-            //if (settingT)
         }
     }
 

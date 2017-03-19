@@ -59,10 +59,10 @@ public class AlarmClock {
             }
         }
 
-        System.out.println("Hour is: " + hour);
-        System.out.println("minutes is: " + minutes);
-        System.out.println("seconds is: " + seconds);
-        System.out.println(AMPM);
+       // System.out.println("Hour is: " + hour);
+        //System.out.println("minutes is: " + minutes);
+        //System.out.println("seconds is: " + seconds);
+       // System.out.println(AMPM);
 
     }
 
