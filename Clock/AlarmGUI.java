@@ -16,12 +16,13 @@ public class AlarmGUI extends JFrame implements ActionListener {
 
     AlarmClock clock;
     Timer rePaint;
-    Boolean alarmTriggered;
+    Boolean alarmTriggered = false;
     String userDesiredTime;
     JButton addAlarmTime;
     JButton exit;
     JButton startClock;
     JButton stopClock;
+
 
 
     public AlarmGUI(){
@@ -119,6 +120,44 @@ public class AlarmGUI extends JFrame implements ActionListener {
 
     }
 
+    public void checkTime(String s) {
+        int hour = 0;
+        int minutes = 0;
+        int seconds = 0;
+        String AMPM = "";
+        String[] timeValues = s.split(":");
+        int len = timeValues.length;
+        for (int z = 0; z < len; z++) {
+            switch (z) {
+                case 0:
+                    //  System.out.println(timeValues[0]);
+                    hour = Integer.parseInt(timeValues[z]);
+
+                case 1:
+                    minutes = Integer.parseInt(timeValues[z]);
+
+                case 2:
+                    seconds = Integer.parseInt(timeValues[z]);
+
+                case 3:
+                    AMPM = timeValues[z];
+
+
+            }
+        }
+        if (AMPM.equals(clock.getAMPM())){
+            if (hour == clock.getHour()) {
+                if (minutes == clock.getMinutes()) {
+                    if (seconds == clock.getSeconds()) {
+                        System.out.println("The alarm should be ringing!");
+                        alarmTriggered = true;
+
+                    }
+                }
+            }
+         }
+    }
+
     public void startTimer()
     {
         rePaint = new Timer();
@@ -135,24 +174,47 @@ public class AlarmGUI extends JFrame implements ActionListener {
         Font myFont = new Font ("Courier New", 1, 50);
         public void paintComponent(Graphics g)
         {
-            super.paintComponent(g);
 
-            String time = clock.getTimeString();
-            g.setFont(myFont);
-            FontMetrics fm = g.getFontMetrics();
-            int x = (getWidth() - fm.stringWidth(time)) / 2;
-            int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
-            g.setColor(Color.RED);
-            g.drawString(time, x, y);
+
+
+
+            super.paintComponent(g);
+            if (alarmTriggered == true)
+            {
+                Font myFont = new Font ("Courier New", 1, 10);
+                String alarmGoingOff = ("THE ALARM IS GOING OFF!!");
+                g.setFont(myFont);
+                FontMetrics fm = g.getFontMetrics();
+                int x = (getWidth() - fm.stringWidth(alarmGoingOff)) / 2;
+                int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
+                g.setColor(Color.CYAN);
+                g.drawString("ALARM IS GOING OFF", x,y );
+            }
+            else {
+                String time = clock.getTimeString();
+                g.setFont(myFont);
+                FontMetrics fm = g.getFontMetrics();
+                int x = (getWidth() - fm.stringWidth(time)) / 2;
+                int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
+                g.setColor(Color.RED);
+                g.drawString(time, x, y);
+            }
+
+
         }
     }
 
     class addInterval extends TimerTask {
         public void run()
         {
+            if (userDesiredTime != null) {
+                checkTime(userDesiredTime);
+            }
             repaint();
         }
     }
+
+
 
 
 }

@@ -154,6 +154,51 @@ public class UserTimeDialog extends JDialog implements ActionListener {
                     catch(NumberFormatException e){
                         incorrectInput = true;
                     }
+                    if (num <= 0 || num > 12)
+                    {
+                        incorrectInput= true;
+                    }
+
+                case 1:
+                    if(holder.length() < 1 || holder.length() > 2)
+                    {
+                        incorrectInput = true;
+                    }
+                    try{
+                        num = Integer.parseInt(holder);
+                    }
+                    catch(NumberFormatException e){
+                        incorrectInput = true;
+                    }
+                    if (num < 0 || num >= 60)
+                    {
+                        incorrectInput= true;
+                    }
+                    if (num < 10)
+                    {
+
+                    }
+                case 2:
+                    if(holder.length() < 1 || holder.length() > 2)
+                    {
+                        incorrectInput = true;
+                    }
+                    try{
+                        num = Integer.parseInt(holder);
+                    }
+                    catch(NumberFormatException e){
+                        incorrectInput = true;
+                    }
+                    if (num < 0 || num >= 60)
+                    {
+                        incorrectInput= true;
+                    }
+
+                case 3:
+                    if (holder == null)
+                    {
+                        incorrectInput = true;
+                    }
 
             }
             System.out.println(incorrectInput.toString());

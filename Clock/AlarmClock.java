@@ -2,6 +2,7 @@ package Clock;
 
 import java.awt.*;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.*;
@@ -66,10 +67,41 @@ public class AlarmClock {
 
     }
 
-    private void setTime(int h, int m)
+    private void setTime(int h, int m, int s, String a)
     {
         hour = h;
         minutes = m;
+        seconds = s;
+        AMPM = a;
+    }
+
+    /*
+    public AlarmClock getClockTime()
+    {
+        AlarmClock time = new AlarmClock();
+        time.setTime(this.hour, this.minutes, this.seconds, this.AMPM);
+        return time;
+    }
+    */
+
+    public int getHour()
+    {
+        return this.hour;
+    }
+
+    public int getMinutes()
+    {
+        return this.minutes;
+    }
+
+    public int getSeconds()
+    {
+        return this.seconds;
+    }
+
+    public String getAMPM  ()
+    {
+        return this.AMPM;
     }
 
     private Pair<Integer, Integer> returnTime ()
@@ -111,6 +143,7 @@ public class AlarmClock {
                 Date d = new Date();
                 SimpleDateFormat df = new SimpleDateFormat("hh mm ss a");
                 time = df.format(d);
+              //  System.out.println(time);
                 setTimeVars(time);
             }
             else
