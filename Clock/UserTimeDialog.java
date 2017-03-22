@@ -1,7 +1,5 @@
 package Clock;
 
-import com.sun.org.apache.bcel.internal.generic.Select;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

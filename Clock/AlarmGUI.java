@@ -22,17 +22,26 @@ public class AlarmGUI extends JFrame implements ActionListener {
     JButton exit;
     JButton startClock;
     JButton stopClock;
-
-
+    private JMenuBar mBar;
+    private JMenu about;
+    private JMenu options;
+    private JMenu file;
 
     public AlarmGUI(){
         initGUI();
+    }
+
+    public enum timeModes
+    {
+        STARTED, STOPPED, alarmRinging, timeSet;
     }
 
     public void initGUI()
     {
         clock = new AlarmClock();
         startTimer();
+
+
         //Main panel we will be adding to using gridBagLayout
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new GridBagLayout());
@@ -53,6 +62,18 @@ public class AlarmGUI extends JFrame implements ActionListener {
         Dimension panelSize = new Dimension(500,500);
         clockPanel.setPreferredSize(panelSize);
         contentPanel.add(clockPanel, gbc);
+
+        //menuBar
+        mBar = new JMenuBar();
+        file = new JMenu("File");
+        options = new JMenu("Options");
+        about = new JMenu("About..");
+        mBar.add(file);
+        mBar.add(options);
+        mBar.add(about);
+
+        setJMenuBar(mBar);
+
 
         //setting the changed gbc values for the button panel to be added to contentpane
         gbc.gridx = 0;
@@ -97,9 +118,11 @@ public class AlarmGUI extends JFrame implements ActionListener {
             UserTimeDialog settingTime = new UserTimeDialog(this);
             userDesiredTime = settingTime.returnTimeValues();
             System.out.println("the String of user setting time in GUI is: " + userDesiredTime);
+
             if (userDesiredTime == null)
             {
                 JOptionPane.showMessageDialog(this, "The time entered was not valid!");
+
             }
         }
         else if (e.getSource() == exit)
