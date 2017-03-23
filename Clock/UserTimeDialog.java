@@ -76,7 +76,7 @@ public class UserTimeDialog extends JDialog implements ActionListener {
                 dispose();
             }
             else if (incorrectInput){
-                JOptionPane.showMessageDialog(this, "The input you tried to enter did not follow time format, try again.");
+               JOptionPane.showMessageDialog(this, "The input you tried to enter did not follow time format, try again.");
             }
         }
         else if (e.getSource() == cancel)

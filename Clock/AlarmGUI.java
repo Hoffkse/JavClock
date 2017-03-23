@@ -14,26 +14,29 @@ import java.util.Timer;
 public class AlarmGUI extends JFrame implements ActionListener {
 
 
-    AlarmClock clock;
-    Timer rePaint;
-    Boolean alarmTriggered = false;
-    String userDesiredTime;
-    JButton addAlarmTime;
-    JButton exit;
-    JButton startClock;
-    JButton stopClock;
+    private AlarmClock clock;
+    private Timer rePaint;
+    private String userDesiredTime;
+    private JButton stopAlarm;
+    private JTextField status;
+    private JMenuItem exit;
     private JMenuBar mBar;
     private JMenu about;
     private JMenu options;
     private JMenu file;
+    private JMenuItem startClock;
+    private JMenuItem stopClock;
+    private JMenuItem addAlarmTime;
+    private JMenuItem setAlarmTime;
+    private timeModes mode;
 
-    public AlarmGUI(){
+    public  AlarmGUI(){
         initGUI();
     }
 
-    public enum timeModes
+    private enum timeModes
     {
-        STARTED, STOPPED, alarmRinging, timeSet;
+        IDLE, RINGING;
     }
 
     public void initGUI()
@@ -41,6 +44,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
         clock = new AlarmClock();
         startTimer();
 
+        mode = timeModes.IDLE;
 
         //Main panel we will be adding to using gridBagLayout
         JPanel contentPanel = new JPanel();
@@ -68,38 +72,50 @@ public class AlarmGUI extends JFrame implements ActionListener {
         file = new JMenu("File");
         options = new JMenu("Options");
         about = new JMenu("About..");
+
+        startClock = new JMenuItem("Resume the clock..");
+        startClock.addActionListener(this);
+        stopClock = new JMenuItem("Pause the clock..");
+        stopClock.addActionListener(this);
+        addAlarmTime = new JMenuItem("Add Alarm Time");
+        addAlarmTime.addActionListener(this);
+        exit = new JMenuItem("Exit Application");
+        exit.addActionListener(this);
+        setAlarmTime = new JMenuItem("Set Alarm Time");
+        setAlarmTime.addActionListener(this );
+
         mBar.add(file);
         mBar.add(options);
         mBar.add(about);
+        options.add(startClock);
+        options.add(stopClock);
+        file.add(addAlarmTime);
+        file.add(setAlarmTime);
+        file.add(exit);
+
 
         setJMenuBar(mBar);
-
 
         //setting the changed gbc values for the button panel to be added to contentpane
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weighty = 0;
-        JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
 
-        startClock = new JButton("RESUME CLOCK");
-        startClock.addActionListener(this);
+        JPanel infoPanel = new JPanel(new GridLayout(2, 1));
+        stopAlarm = new JButton("Stop Alarm!");
+        //Dimension d = new Dimension(200,200);
+        //stopAlarm.setPreferredSize(d);
+        stopAlarm.addActionListener(this);
+        stopAlarm.setEnabled(false);
 
-        stopClock = new JButton("PAUSE CLOCK");
-        stopClock.addActionListener(this);
-
-        exit = new JButton("EXIT");
-        exit.addActionListener(this);
-
-        addAlarmTime = new JButton( "Set Clock to Ring");
-        addAlarmTime.addActionListener(this);
-
-        buttonPanel.add(startClock);
-        buttonPanel.add(stopClock);
-        buttonPanel.add(addAlarmTime);
-        buttonPanel.add(exit);
-        buttonPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        buttonPanel.setBackground(Color.cyan);
-        contentPanel.add(buttonPanel, gbc);
+        status = new JTextField("Welcome!");
+        status.setHorizontalAlignment(JTextField.CENTER);
+        status.setEditable(false);
+        infoPanel.add(stopAlarm);
+        infoPanel.add(status);
+        infoPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        infoPanel.setBackground(Color.cyan);
+        contentPanel.add(infoPanel, gbc);
 
         add(contentPanel);
         setTitle("WAKE UP!");
@@ -115,14 +131,15 @@ public class AlarmGUI extends JFrame implements ActionListener {
     {
         if (e.getSource() == addAlarmTime)
         {
+            status.setText("Adding an alarm to the repository..");
             UserTimeDialog settingTime = new UserTimeDialog(this);
             userDesiredTime = settingTime.returnTimeValues();
+            status.setText("The specified time has been added to list");
             System.out.println("the String of user setting time in GUI is: " + userDesiredTime);
 
             if (userDesiredTime == null)
             {
-                JOptionPane.showMessageDialog(this, "The time entered was not valid!");
-
+                //Only way this is accessed is if the user hits cancel
             }
         }
         else if (e.getSource() == exit)
@@ -131,19 +148,26 @@ public class AlarmGUI extends JFrame implements ActionListener {
         }
         else if (e.getSource() == startClock)
         {
+            status.setText("Global clock is resumed");
             clock.startClock();
             startTimer();
         }
         else if (e.getSource() == stopClock)
         {
+            status.setText("Global clock is paused");
             clock.stopTimer();
             rePaint.cancel();
             rePaint.purge();
         }
+        else if (e.getSource() == stopAlarm)
+        {
+            mode = timeModes.IDLE;
+            stopAlarm.setEnabled(false);
+        }
 
     }
 
-    public void checkTime(String s) {
+    private void checkTime(String s) {
         int hour = 0;
         int minutes = 0;
         int seconds = 0;
@@ -173,7 +197,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
                 if (minutes == clock.getMinutes()) {
                     if (seconds == clock.getSeconds()) {
                         System.out.println("The alarm should be ringing!");
-                        alarmTriggered = true;
+                        mode = timeModes.RINGING;
 
                     }
                 }
@@ -181,7 +205,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
          }
     }
 
-    public void startTimer()
+    private void startTimer()
     {
         rePaint = new Timer();
         rePaint.schedule(new addInterval(), 100, 1000);
@@ -194,26 +218,25 @@ public class AlarmGUI extends JFrame implements ActionListener {
 
     public class AlarmPanel extends JPanel
     {
-        Font myFont = new Font ("Courier New", 1, 50);
         public void paintComponent(Graphics g)
         {
-
-
-
-
             super.paintComponent(g);
-            if (alarmTriggered == true)
+            if (mode == timeModes.RINGING)
             {
-                Font myFont = new Font ("Courier New", 1, 10);
+                Font myFont = new Font ("Courier New", 1, 20);
+                status.setText("WAKE UP!");
                 String alarmGoingOff = ("THE ALARM IS GOING OFF!!");
                 g.setFont(myFont);
                 FontMetrics fm = g.getFontMetrics();
                 int x = (getWidth() - fm.stringWidth(alarmGoingOff)) / 2;
                 int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
                 g.setColor(Color.CYAN);
-                g.drawString("ALARM IS GOING OFF", x,y );
+                g.drawString(alarmGoingOff, x,y );
+                stopAlarm.setEnabled(true);
+
             }
-            else {
+            else if (mode == timeModes.IDLE) {
+                Font myFont = new Font ("Courier New", 1, 50);
                 String time = clock.getTimeString();
                 g.setFont(myFont);
                 FontMetrics fm = g.getFontMetrics();
@@ -236,8 +259,4 @@ public class AlarmGUI extends JFrame implements ActionListener {
             repaint();
         }
     }
-
-
-
-
 }
