@@ -33,12 +33,15 @@ public class About extends JDialog implements ActionListener {
 
         setLayout(new TableLayout());
 
+
        // GridBagConstraints gbc = new GridBagConstraints();
         //gbc.fill = GridBagConstraints.BOTH;
         //gbc.gridy = 0;
         //gbc.gridx = 0;
         Dimension textArea = new Dimension(200, 200);
         aboutInfo.setPreferredSize(textArea);
+        add(aboutInfo, "0, 0");
+        add(close, "0, 1");
        // this.add(aboutInfo, gbc);
 
         //gbc.anchor = GridBagConstraints.SOUTH;
@@ -51,8 +54,7 @@ public class About extends JDialog implements ActionListener {
 
 
 
-        add(aboutInfo);
-        add(close);
+
 
 
 

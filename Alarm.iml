@@ -7,14 +7,14 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library" exported="">
+    <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/tablelayout.jar!/" />
+          <root url="jar://$MODULE_DIR$/tablelayout.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$USER_HOME$/Desktop/tablelayout.jar!/" />
+          <root url="jar://$MODULE_DIR$/tablelayout.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
