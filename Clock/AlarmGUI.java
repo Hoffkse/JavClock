@@ -21,7 +21,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
     private JTextField status;
     private JMenuItem exit;
     private JMenuBar mBar;
-    private JMenu about;
+    private JMenuItem about;
     private JMenu options;
     private JMenu file;
     private JMenuItem startClock;
@@ -83,6 +83,9 @@ public class AlarmGUI extends JFrame implements ActionListener {
         exit.addActionListener(this);
         setAlarmTime = new JMenuItem("Set Alarm Time");
         setAlarmTime.addActionListener(this );
+        about = new JMenuItem("About..");
+        about.addActionListener(this);
+
 
         mBar.add(file);
         mBar.add(options);
@@ -91,6 +94,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
         options.add(stopClock);
         file.add(addAlarmTime);
         file.add(setAlarmTime);
+        file.add(about);
         file.add(exit);
 
 
@@ -163,6 +167,12 @@ public class AlarmGUI extends JFrame implements ActionListener {
         {
             mode = timeModes.IDLE;
             stopAlarm.setEnabled(false);
+        }
+
+        else if (e.getSource() == about)
+        {
+            About aboutSection = new About(this);
+            status.setText("Viewing about section..");
         }
 
     }
