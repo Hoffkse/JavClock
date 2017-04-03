@@ -226,6 +226,10 @@ public class AlarmGUI extends JFrame implements ActionListener {
         rePaint.cancel();
     }
 
+
+    public void resetTextField(){
+        status.setText("");
+    }
     public class AlarmPanel extends JPanel
     {
         public void paintComponent(Graphics g)
