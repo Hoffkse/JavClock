@@ -17,7 +17,6 @@ public class About extends JDialog implements ActionListener {
     JTextArea aboutInfo;
     JButton close;
     JButton copy;
-    AlarmGUI test;
 
     public About (Frame parent)
     {
@@ -31,7 +30,7 @@ public class About extends JDialog implements ActionListener {
         aboutInfo.setLineWrap(true);
         aboutInfo.setText("Hi there, welcome to JavClock! This is a prototype experiment to broaden my skills using the variety of different libraries Java has. "
                 + System.lineSeparator() + System.lineSeparator() +
-                "There may be bugs as I am still currently expanding the functionality of the application. "
+                "There may be bugs as I am still currently expanding the functionality of     the application. "
                 + System.lineSeparator() + System.lineSeparator() +
                 "If you wish to email me please direct to Hoffkse@gmail.com. Thanks!");
         aboutInfo.setEditable(false);
@@ -65,6 +64,10 @@ public class About extends JDialog implements ActionListener {
         requestFocus();
     }
 
+    public void resetTextField(JTextField t){
+        t.setText("");
+    }
+
     public void actionPerformed (ActionEvent e)
     {
 
@@ -77,8 +80,7 @@ public class About extends JDialog implements ActionListener {
         }
         if (e.getSource() == close)
         {
-            test = new AlarmGUI();
-            test.resetTextField();
+
             dispose();
         }
     }

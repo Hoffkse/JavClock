@@ -171,8 +171,11 @@ public class AlarmGUI extends JFrame implements ActionListener {
 
         else if (e.getSource() == about)
         {
-            About aboutSection = new About(this);
             status.setText("Viewing about section..");
+            About aboutSection = new About(this);
+            aboutSection.resetTextField(status);
+
+
         }
 
     }
@@ -221,6 +224,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
         rePaint.schedule(new addInterval(), 100, 1000);
 
     }
+
     public void stopTimer ()
     {
         rePaint.cancel();
@@ -230,6 +234,8 @@ public class AlarmGUI extends JFrame implements ActionListener {
     public void resetTextField(){
         status.setText("");
     }
+
+
     public class AlarmPanel extends JPanel
     {
         public void paintComponent(Graphics g)
