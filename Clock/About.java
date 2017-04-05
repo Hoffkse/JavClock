@@ -9,9 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.datatransfer.*;
 import java.awt.Toolkit;
 
-/**
- * Created by cpc27 on 3/23/2017.
- */
+
 public class About extends JDialog implements ActionListener {
 
     JTextArea aboutInfo;
@@ -36,7 +34,6 @@ public class About extends JDialog implements ActionListener {
         aboutInfo.setEditable(false);
         Border b = BorderFactory.createLineBorder(Color.BLACK);
         aboutInfo.setBorder(b);
-        JScrollPane scroll = new JScrollPane(aboutInfo);
 
         close = new JButton("Return");
         close.addActionListener(this);
@@ -44,13 +41,9 @@ public class About extends JDialog implements ActionListener {
         copy = new JButton("Copy Email to Clipboard");
         copy.addActionListener(this );
 
-
-        //double size[][] = {{TableLayout.FILL, TableLayout.FILL}, {TableLayout.FILL,TableLayout.FILL}};
-
         double border = 10;
-        double size[][] = {{border, 400, 10, 170, border}, {border, 200 ,10, 200, border}};
+        double size[][] = {{border, 400, 10, 170, border}, {border, 100 ,10, 100, border}};
         setLayout(new TableLayout(size));
-
 
         add(aboutInfo, "1, 1, 1, 3");
         add(copy, "3, 1");

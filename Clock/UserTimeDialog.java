@@ -15,17 +15,14 @@ public class UserTimeDialog extends JDialog implements ActionListener {
     JRadioButton AM = new JRadioButton("AM");
     JRadioButton PM = new JRadioButton("PM");
     ButtonGroup timeContext = new ButtonGroup();
-    //JTextField Time = new JTextField(2);
     JLabel hour = new JLabel("Hour:");
     JLabel minute = new JLabel("Minute:");
     JLabel second = new JLabel("Second:");
-    //JLabel timeText = new JLabel("AM/PM:");
     JButton confirm = new JButton("OK");
     JButton cancel = new JButton("  CANCEL");
     StringBuilder userTime = new StringBuilder();
     String finalValue;
     Boolean incorrectInput;
-
     String buttonSelected;
 
     public UserTimeDialog(Frame parent)
@@ -130,9 +127,7 @@ public class UserTimeDialog extends JDialog implements ActionListener {
         timeValues.add(hours.getText());
         timeValues.add(minutes.getText());
         timeValues.add(seconds.getText());
-
         buttonSelected = getSelectedRadioButton(timeContext);
-
         timeValues.add(buttonSelected);
 
         for(int z = 0; z < timeValues.size(); z++)

@@ -1,6 +1,5 @@
 package Clock;
 
-
 import java.awt.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -8,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.util.TimerTask;
 import javax.swing.*;
 import java.util.Timer;
-
 
 
 public class AlarmGUI extends JFrame implements ActionListener {
@@ -97,18 +95,14 @@ public class AlarmGUI extends JFrame implements ActionListener {
         file.add(about);
         file.add(exit);
 
-
         setJMenuBar(mBar);
 
-        //setting the changed gbc values for the button panel to be added to contentpane
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weighty = 0;
 
         JPanel infoPanel = new JPanel(new GridLayout(2, 1));
         stopAlarm = new JButton("Stop Alarm!");
-        //Dimension d = new Dimension(200,200);
-        //stopAlarm.setPreferredSize(d);
         stopAlarm.addActionListener(this);
         stopAlarm.setEnabled(false);
 
@@ -122,7 +116,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
         contentPanel.add(infoPanel, gbc);
 
         add(contentPanel);
-        setTitle("WAKE UP!");
+        setTitle("JavClock V1.00");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         pack();
         setLocationRelativeTo(null);
@@ -166,6 +160,7 @@ public class AlarmGUI extends JFrame implements ActionListener {
         else if (e.getSource() == stopAlarm)
         {
             mode = timeModes.IDLE;
+            status.setText("Alarm is silenced..");
             stopAlarm.setEnabled(false);
         }
 
@@ -174,8 +169,6 @@ public class AlarmGUI extends JFrame implements ActionListener {
             status.setText("Viewing about section..");
             About aboutSection = new About(this);
             aboutSection.resetTextField(status);
-
-
         }
 
     }
@@ -190,19 +183,13 @@ public class AlarmGUI extends JFrame implements ActionListener {
         for (int z = 0; z < len; z++) {
             switch (z) {
                 case 0:
-                    //  System.out.println(timeValues[0]);
                     hour = Integer.parseInt(timeValues[z]);
-
                 case 1:
                     minutes = Integer.parseInt(timeValues[z]);
-
                 case 2:
                     seconds = Integer.parseInt(timeValues[z]);
-
                 case 3:
                     AMPM = timeValues[z];
-
-
             }
         }
         if (AMPM.equals(clock.getAMPM())){
@@ -243,17 +230,22 @@ public class AlarmGUI extends JFrame implements ActionListener {
             super.paintComponent(g);
             if (mode == timeModes.RINGING)
             {
-                Font myFont = new Font ("Courier New", 1, 20);
-                status.setText("WAKE UP!");
+                Font alarmFont = new Font ("Courier New", 1, 50);
+                String time = clock.getTimeString();
+                g.setFont(alarmFont);
+                FontMetrics alarmFontMetrics = g.getFontMetrics();
+                int xTime = (getWidth() - alarmFontMetrics.stringWidth(time)) / 2;
+                int yTime = ((getHeight() - alarmFontMetrics.getHeight()) / 2) + alarmFontMetrics.getAscent();
+                g.setColor(Color.RED);
+                g.drawString(time, xTime, yTime);
+                Font myFont = new Font ("Courier New", 1, 30);
                 String alarmGoingOff = ("THE ALARM IS GOING OFF!!");
                 g.setFont(myFont);
-                FontMetrics fm = g.getFontMetrics();
-                int x = (getWidth() - fm.stringWidth(alarmGoingOff)) / 2;
-                int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();
+                int xMessage = xTime - 60 ;
+                int yMessage = yTime + 50;
                 g.setColor(Color.CYAN);
-                g.drawString(alarmGoingOff, x,y );
+                g.drawString(alarmGoingOff, xMessage, yMessage );
                 stopAlarm.setEnabled(true);
-
             }
             else if (mode == timeModes.IDLE) {
                 Font myFont = new Font ("Courier New", 1, 50);
@@ -265,8 +257,6 @@ public class AlarmGUI extends JFrame implements ActionListener {
                 g.setColor(Color.RED);
                 g.drawString(time, x, y);
             }
-
-
         }
     }
 
